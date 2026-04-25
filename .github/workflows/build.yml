@@ -28,6 +28,8 @@ jobs:
 
       - name: Build APK
         run: eas build --platform android --profile preview --non-interactive --no-wait
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
 
       # Not: APK build tamamlanması uzun sürdüğü için '--no-wait' kullanıldı.
       # Gerçek senaryoda build bittikten sonra Artifact/Release işlemleri eklenmelidir.
