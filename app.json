@@ -37,6 +37,16 @@
     "plugins": [
       "expo-router",
       [
+        "expo-build-properties",
+        {
+          "android": {
+            "extraMavenRepos": [
+              "https://www.jitpack.io"
+            ]
+          }
+        }
+      ],
+      [
         "@react-native-voice/voice",
         {
           "microphonePermission": "FunAI sesinizi metne çevirmek için mikrofonu kullanır.",
