@@ -49,8 +49,9 @@
         "origin": false
       },
       "eas": {
-        "projectId": "your-project-id"
+        "projectId": "f1494a64-6327-4f93-9e5f-3a8672a27c8a"
       }
-    }
+    },
+    "owner": "muh5895"
   }
 }
