@@ -47,19 +47,19 @@ export const TypingIndicator = () => {
     }),
     transform: [
       {
-        translateY: val.interpolate({
+        scale: val.interpolate({
           inputRange: [0, 1],
-          outputRange: [0, -4],
+          outputRange: [0.8, 1.2],
         }),
       },
     ],
   });
 
   return (
-    <View className="flex-row items-center space-x-1 bg-gray-800 p-3 rounded-2xl self-start ml-4 mb-2">
-      <Animated.View style={dotStyle(dot1)} className="w-2 h-2 bg-gray-400 rounded-full mx-0.5" />
-      <Animated.View style={dotStyle(dot2)} className="w-2 h-2 bg-gray-400 rounded-full mx-0.5" />
-      <Animated.View style={dotStyle(dot3)} className="w-2 h-2 bg-gray-400 rounded-full mx-0.5" />
+    <View className="flex-row items-center bg-zinc-900 border border-white/5 px-4 py-3 rounded-2xl self-start ml-2 mb-4">
+      <Animated.View style={dotStyle(dot1)} className="w-1.5 h-1.5 bg-primary rounded-full mx-0.5" />
+      <Animated.View style={dotStyle(dot2)} className="w-1.5 h-1.5 bg-primary rounded-full mx-0.5" />
+      <Animated.View style={dotStyle(dot3)} className="w-1.5 h-1.5 bg-primary rounded-full mx-0.5" />
     </View>
   );
 };

@@ -1,64 +1,81 @@
 import React, { useEffect, useRef } from "react";
-import { View, Animated } from "react-native";
+import { View, Animated, StyleSheet } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 
 export const VoiceWave = ({ isActive }: { isActive: boolean }) => {
-  const scale1 = useRef(new Animated.Value(1)).current;
-  const scale2 = useRef(new Animated.Value(1)).current;
-  const scale3 = useRef(new Animated.Value(1)).current;
+  const animations = useRef([
+    new Animated.Value(1),
+    new Animated.Value(1),
+    new Animated.Value(1),
+    new Animated.Value(1),
+    new Animated.Value(1),
+  ]).current;
 
   useEffect(() => {
     if (isActive) {
-      const animate = (val: Animated.Value, delay: number) => {
+      const createAnimation = (val: Animated.Value, delay: number) => {
         return Animated.loop(
           Animated.sequence([
             Animated.delay(delay),
             Animated.timing(val, {
-              toValue: 2,
-              duration: 600,
+              toValue: 2.5,
+              duration: 500,
               useNativeDriver: true,
             }),
             Animated.timing(val, {
               toValue: 1,
-              duration: 600,
+              duration: 500,
               useNativeDriver: true,
             }),
           ])
         );
       };
 
-      const anim1 = animate(scale1, 0);
-      const anim2 = animate(scale2, 200);
-      const anim3 = animate(scale3, 400);
-
-      anim1.start();
-      anim2.start();
-      anim3.start();
+      const anims = animations.map((anim, i) => createAnimation(anim, i * 150));
+      Animated.parallel(anims).start();
 
       return () => {
-        anim1.stop();
-        anim2.stop();
-        anim3.stop();
-        scale1.setValue(1);
-        scale2.setValue(1);
-        scale3.setValue(1);
+        anims.forEach(a => a.stop());
+        animations.forEach(a => a.setValue(1));
       };
     }
   }, [isActive]);
 
   return (
-    <View className="flex-row items-center justify-center space-x-4 h-32">
-      <Animated.View
-        style={{ transform: [{ scaleY: scale1 }] }}
-        className="w-2 h-12 bg-primary rounded-full mx-1"
-      />
-      <Animated.View
-        style={{ transform: [{ scaleY: scale2 }] }}
-        className="w-2 h-20 bg-primary rounded-full mx-1"
-      />
-      <Animated.View
-        style={{ transform: [{ scaleY: scale3 }] }}
-        className="w-2 h-12 bg-primary rounded-full mx-1"
-      />
+    <View style={styles.container}>
+      {animations.map((anim, i) => (
+        <Animated.View
+          key={i}
+          style={[
+            styles.bar,
+            {
+                transform: [{ scaleY: anim }],
+                opacity: isActive ? 1 : 0.3,
+                height: 30 + (i % 3) * 10
+            }
+          ]}
+        >
+          <LinearGradient
+            colors={['#7c3aed', '#db2777']}
+            style={StyleSheet.absoluteFill}
+          />
+        </Animated.View>
+      ))}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 120,
+    gap: 8,
+  },
+  bar: {
+    width: 6,
+    borderRadius: 3,
+    overflow: 'hidden',
+  },
+});
